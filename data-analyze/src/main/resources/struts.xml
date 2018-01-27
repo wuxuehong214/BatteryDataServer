@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.multipart.maxSize" value="9999999999" />
+	<package name="platform-default" namespace="/" extends="struts-default">
+		<default-action-ref name="notFound"></default-action-ref>
+			<action name="notFound" class="com.green.battery.action.NotFoundAction"
+				method="turn">
+				<result name="success">404.jsp</result>
+			</action>
+			<action name="upload" class="com.green.battery.action.UploadAction">
+				<param name="uploadDir">upload</param>
+			</action>
+			<action name="*_*" class="com.green.battery.action.{1}Action" method="{2}">
+				<result name="index">index.jsp</result>
+				<result name="error500">500.jsp</result>
+				<result name="jsonresult"></result>
+				<result name="success">{1}_{2}.jsp</result>
+				<result name="target">${page}.jsp</result>
+				<result name="redirect" type="redirect">${page}.jsp</result>
+				<result name="exception">404.jsp</result>
+				<result name="excel" type="stream">
+					<param name="contentType">
+						application/vnd.ms-excel
+					</param>
+					<param name="inputName">excelStream</param>
+					<param name="contentDisposition">
+						filename="export.xls"
+					</param>
+					<param name="bufferSize">1024</param>
+				</result>
+			</action>
+	</package>
+
+	<package name="ajax" namespace="/" extends="json-default">
+		<!-- 诊断任务 -->
+		<action name="tasks" class="com.green.battery.action.TaskHistoryAction"
+			method="list">
+			<!-- 返回类型为json 在sjon-default中定义 -->
+			<result type="json">
+			</result>
+		</action>
+		
+		<!-- 我的诊断任务 -->
+		<action name="tasks2" class="com.green.battery.action.TaskAction"
+			method="list2">
+			<!-- 返回类型为json 在sjon-default中定义 -->
+			<result type="json">
+			</result>
+		</action>
+
+		<!-- 登陆日志 -->
+		<action name="loginLog" class="com.green.battery.action.LogAction"
+			method="loginLoglist">
+			<!-- 返回类型为json 在sjon-default中定义 -->
+			<result type="json">
+			</result>
+		</action>
+
+		<!-- 诊断日志 -->
+		<action name="analyzeLog" class="com.green.battery.action.LogAction"
+			method="analyzeLoglist">
+			<!-- 返回类型为json 在sjon-default中定义 -->
+			<result type="json">
+			</result>
+		</action>
+
+		<!-- 账号管理 -->
+		<action name="users" class="com.green.battery.action.UserAction"
+			method="users">
+			<!-- 返回类型为json 在sjon-default中定义 -->
+			<result type="json">
+			</result>
+		</action>
+
+		<!-- ylw记录 -->
+		<action name="ylws" class="com.green.battery.action.YlwAction"
+			method="ylw">
+			<!-- 返回类型为json 在sjon-default中定义 -->
+			<result type="json">
+			</result>
+		</action>
+
+		<!-- 充放电记录 -->
+		<action name="cfds" class="com.green.battery.action.CfdAction"
+			method="records">
+			<!-- 返回类型为json 在sjon-default中定义 -->
+			<result type="json">
+			</result>
+		</action>
+	</package>
+</struts>
